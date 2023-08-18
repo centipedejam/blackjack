@@ -34,15 +34,17 @@ Project 1 Pseudocode
 	-play out dealer hand if user selects check
 		-dealer must get to 16
 
-8. checkWinner
+8. check
 	-user wins if has 21 on first two cards(blackjack) && dealer doesnt have 21
 			- push if both have blackjack
 				
 	-user wins if value < 22 && greater than dealers hand
 	- if both <21 player with highest hand wins
 
-	-if player wins
+	-if player wins w/o blackjac
 		wallet += bet * 2
+	-if player wins w/ blackjack
+	wallet += bet + (bet * 1.5)
 	-if player loses
 		no change
 	-if push

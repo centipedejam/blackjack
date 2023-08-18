@@ -12,38 +12,53 @@ let outcome;
 /*----- cached elements  -----*/
 const userCardsEl = document.getElementById('u-cards');
 const dealerCardsEl = document.getElementById('d-cards');
+const wagerInputEl = document.getElementById('wager-input');
 
 /*----- event listeners -----*/
 document.getElementById('stay-btn').addEventListener('click', handleStay);
+document.getElementById('wager-btn').addEventListener('click', handleWager)
 
 /*----- functions -----*/
 init();
 
 function init() {
+    shuffledDeck = shuffleNewDeck();
     player = {
-        hand: [5, 10],
+        hand: [3, 10],
         imgLookup: ['d03', 'dK', 's07'],
         wallet: 200,
         handVal: 0
     }
     dealer = {
-        hand: [7, 10, 3],
-        imgLookup: ['d07', 'hJ', 'c03', 's05'],
+        hand: [7, 10],
+        imgLookup: ['d07', 'hJ'],
         handVal: 0
     }
     render();
 }
+function handleWager() { //checks to see if player has enough money, removes money from wallet
+    if (wagerInputEl.value > player.wallet) {
+        alert('not enough money');
+    } else {
+        player.wallet -= parseInt(wagerInputEl.value);
+        dealCards();
+    }
+}
+
+function dealCards() {
+    wagerInputEl.visibility = 'hidden';
+}
 
 function handleStay() {
+
     renderDealerHand();
 }
 
 function render() {
-    shuffledDeck = shuffleNewDeck();
     renderCards();
 }
 
-function renderDealerHand() {
+function renderDealerHand() {//clears content from originally dealt hand and re-renders all dealer cards
     dealerCardsEl.innerHTML = '';
     dealer.imgLookup.forEach(function (card) {
         dealerCardsEl.innerHTML += `<div class="card ${card} d-xlarge"></div>`
@@ -55,22 +70,22 @@ function checkOutcome() {
 
 }
 
-function renderCards() {
-    if (player.hand.length < 3) {
-        for (let i = 0; i < player.hand.length; i++) {
-            userCardsEl.innerHTML += `<div class="card ${player.imgLookup[i]} u-xlarge"></div>`;
-            if (dealer.imgLookup[i] === dealer.imgLookup[0]) {
-                dealerCardsEl.innerHTML += `<div class="card back-red d-xlarge"></div>`;
-            } else {
-                dealerCardsEl.innerHTML += `<div class="card ${dealer.imgLookup[i]} d-xlarge"></div>`;
-            }
+function renderCards() {//clears html/card imgs, renders all cards currently in player and dealer hand
+    userCardsEl.innerHTML = '';
+    dealerCardsEl.innerHTML = '';
+    player.imgLookup.forEach(function (face) {
+        userCardsEl.innerHTML += `<div class="card ${face} u-xlarge"></div>`;
+    })
+    dealer.imgLookup.forEach(function (face) {
+        if (face === dealer.imgLookup[0]) {
+            dealerCardsEl.innerHTML += `<div class="card back-red d-xlarge"></div>`;
+        } else {
+            dealerCardsEl.innerHTML += `<div class="card ${face} d-xlarge"></div>`;
         }
-    } else {
-        userCardsEl.innerHTML += `<div class="card ${player.imgLookup.at(-1)} u-xlarge"></div>`;
-    }
+    })
 }
 
-function buildUnshuffledDeck() {
+function buildUnshuffledDeck() {//creates clean deck
     const deck = [];
     suits.forEach(function (suit) {
         ranks.forEach(function (rank) {
@@ -82,7 +97,7 @@ function buildUnshuffledDeck() {
     });
     return deck;
 }
-function shuffleNewDeck() {
+function shuffleNewDeck() {//shuffles clean deck
     const tempDeck = [...unshuffledDeck];
     const newShuffledDeck = [];
     while (tempDeck.length) {
