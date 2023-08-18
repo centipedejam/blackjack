@@ -10,7 +10,8 @@ let dealer;
 let outcome;
 
 /*----- cached elements  -----*/
-
+const userCardsEl = document.getElementById('u-cards');
+const dealerCardsEl = document.getElementById('d-cards');
 
 /*----- event listeners -----*/
 
@@ -19,11 +20,37 @@ let outcome;
 init();
 
 function init() {
+    player = {
+        hand: [5, 10],
+        imgLookup: ['d03', 'dK', 's07'],
+        wallet: 200
+    }
+    dealer = {
+        hand: [7, 10, 3],
+        imgLookup: ['d07', 'hJ', 'c03']
+    }
     render();
 }
 
 function render() {
+    shuffledDeck = shuffleNewDeck();
+    renderCards();
+}
 
+function renderCards() {
+    if (player.hand.length < 3) {
+        for (let i = 0; i < player.hand.length; i++) {
+            userCardsEl.innerHTML += `<div class="card ${player.imgLookup[i]} u-xlarge"></div>`;
+            if (dealer.imgLookup[i] === dealer.imgLookup[0]) {
+                dealerCardsEl.innerHTML += `<div class="card back-red d-xlarge"></div>`;
+            } else {
+                dealerCardsEl.innerHTML += `<div class="card ${dealer.imgLookup[i]} d-xlarge"></div>`;
+            }
+        }
+    } else {
+        userCardsEl.innerHTML += `<div class="card ${player.imgLookup.at(-1)} u-xlarge"></div>`;
+
+    }
 }
 
 function buildUnshuffledDeck() {
