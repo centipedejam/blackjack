@@ -1,0 +1,61 @@
+Project 1 Pseudocode
+
+1. Define required constants
+	-deck
+	
+-generate deck
+-shuffle deck
+2. Define required variables used to track the state of the game
+	
+
+3. Store Dom elements in variables that will be used more than once
+	
+
+4. Initialize game
+  	-intitalize state variables
+	-put money in user Wallet
+	-render table
+
+
+5. Handle player making bet
+	-check user wallet to see if valid bet
+	-subtract bet value from player wallet
+	-update dom elements to display wallet and player bet
+	
+
+6. deal hand
+	-store values of cards 
+	-two face up cards for user
+	- one face up, one face down card
+
+7. Handle Hit/Check
+	-deal another card if user selects hit
+		-if above 21 and has Ace 11 --> 1
+	-play out dealer hand if user selects check
+		-dealer must get to 16
+
+8. checkWinner
+	-user wins if has 21 on first two cards(blackjack) && dealer doesnt have 21
+			- push if both have blackjack
+				
+	-user wins if value < 22 && greater than dealers hand
+	- if both <21 player with highest hand wins
+
+	-if player wins
+		wallet += bet * 2
+	-if player loses
+		no change
+	-if push
+		wallet += bet
+
+	check to see if user has money in user wallet
+
+	
+9. event listeners
+	 playAgain button
+		-call initialize
+	hit button
+	stay button
+	
+	
+
