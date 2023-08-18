@@ -23,11 +23,13 @@ function init() {
     player = {
         hand: [5, 10],
         imgLookup: ['d03', 'dK', 's07'],
-        wallet: 200
+        wallet: 200,
+        handVal: 0
     }
     dealer = {
         hand: [7, 10, 3],
-        imgLookup: ['d07', 'hJ', 'c03']
+        imgLookup: ['d07', 'hJ', 'c03'],
+        handVal: 0
     }
     render();
 }
@@ -35,6 +37,16 @@ function init() {
 function render() {
     shuffledDeck = shuffleNewDeck();
     renderCards();
+}
+
+function renderDealerHand() {
+    dealerCardsEl.innerHTML = '';
+    dealer.imgLookup.forEach(function (card) {
+        console.log(card);
+        dealerCardsEl.innerHTML += `<div class="card ${card} d-xlarge"></div>`
+    })
+    outcome = checkOutcome();
+
 }
 
 function renderCards() {
