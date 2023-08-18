@@ -14,7 +14,7 @@ const userCardsEl = document.getElementById('u-cards');
 const dealerCardsEl = document.getElementById('d-cards');
 
 /*----- event listeners -----*/
-
+document.getElementById('stay-btn').addEventListener('click', handleStay);
 
 /*----- functions -----*/
 init();
@@ -28,10 +28,14 @@ function init() {
     }
     dealer = {
         hand: [7, 10, 3],
-        imgLookup: ['d07', 'hJ', 'c03'],
+        imgLookup: ['d07', 'hJ', 'c03', 's05'],
         handVal: 0
     }
     render();
+}
+
+function handleStay() {
+    renderDealerHand();
 }
 
 function render() {
@@ -42,10 +46,12 @@ function render() {
 function renderDealerHand() {
     dealerCardsEl.innerHTML = '';
     dealer.imgLookup.forEach(function (card) {
-        console.log(card);
         dealerCardsEl.innerHTML += `<div class="card ${card} d-xlarge"></div>`
     })
-    outcome = checkOutcome();
+
+}
+
+function checkOutcome() {
 
 }
 
@@ -61,7 +67,6 @@ function renderCards() {
         }
     } else {
         userCardsEl.innerHTML += `<div class="card ${player.imgLookup.at(-1)} u-xlarge"></div>`;
-
     }
 }
 
