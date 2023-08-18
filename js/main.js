@@ -14,3 +14,6 @@ let outcome;
 
 
 /*----- functions -----*/
+function init() {
+
+}
