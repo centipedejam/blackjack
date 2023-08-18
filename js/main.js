@@ -14,6 +14,12 @@ let outcome;
 
 
 /*----- functions -----*/
+init();
+
 function init() {
+    render();
+}
+
+function render() {
 
 }
