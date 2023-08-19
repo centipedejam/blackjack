@@ -24,14 +24,14 @@ init();
 function init() {
     shuffledDeck = shuffleNewDeck();
     player = {
-        hand: [3, 10],
-        imgLookup: ['d03', 'dK', 's07'],
+        hand: [],
+        imgLookup: [],
         wallet: 200,
         handVal: 0
     }
     dealer = {
-        hand: [7, 10],
-        imgLookup: ['d07', 'hJ'],
+        hand: [],
+        imgLookup: [],
         handVal: 0
     }
     render();
@@ -46,24 +46,24 @@ function handleWager() { //checks to see if player has enough money, removes mon
 }
 
 function dealCards() {
-    wagerInputEl.visibility = 'hidden';
+    for (let i = 0; i < 2; i++) {
+        let nextCard = shuffledDeck.shift();
+        player.hand.push(nextCard.value);
+        player.imgLookup.push(nextCard.face);
+        nextCard = shuffledDeck.shift();
+        dealer.hand.push(nextCard.value);
+        dealer.imgLookup.push(nextCard.face);
+        render();
+    }
 }
 
 function handleStay() {
 
-    renderDealerHand();
+    render();
 }
 
 function render() {
     renderCards();
-}
-
-function renderDealerHand() {//clears content from originally dealt hand and re-renders all dealer cards
-    dealerCardsEl.innerHTML = '';
-    dealer.imgLookup.forEach(function (card) {
-        dealerCardsEl.innerHTML += `<div class="card ${card} d-xlarge"></div>`
-    })
-
 }
 
 function checkOutcome() {
@@ -85,7 +85,7 @@ function renderCards() {//clears html/card imgs, renders all cards currently in 
     })
 }
 
-function buildUnshuffledDeck() {//creates clean deck
+function buildUnshuffledDeck() {//creates a clean deck
     const deck = [];
     suits.forEach(function (suit) {
         ranks.forEach(function (rank) {
@@ -97,7 +97,7 @@ function buildUnshuffledDeck() {//creates clean deck
     });
     return deck;
 }
-function shuffleNewDeck() {//shuffles clean deck
+function shuffleNewDeck() {//shuffles a clean deck
     const tempDeck = [...unshuffledDeck];
     const newShuffledDeck = [];
     while (tempDeck.length) {
