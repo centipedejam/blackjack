@@ -16,7 +16,8 @@ const wagerInputEl = document.getElementById('wager-input');
 
 /*----- event listeners -----*/
 document.getElementById('stay-btn').addEventListener('click', handleStay);
-document.getElementById('wager-btn').addEventListener('click', handleWager)
+document.getElementById('wager-btn').addEventListener('click', handleWager);
+document.getElementById('hit-btn').addEventListener('click', handleHit);
 
 /*----- functions -----*/
 init();
@@ -24,7 +25,7 @@ init();
 function init() {
     shuffledDeck = shuffleNewDeck();
     player = {
-        hand: [],
+        hand: [10, 2, 11, 11, 11],
         imgLookup: [],
         wallet: 200,
         handVal: 0
@@ -36,37 +37,67 @@ function init() {
     }
     render();
 }
-function handleWager() { //checks to see if player has enough money, removes money from wallet
-    if (wagerInputEl.value > player.wallet) {
-        alert('not enough money');
-    } else {
-        player.wallet -= parseInt(wagerInputEl.value);
-        dealCards();
-    }
+
+
+function handleHit() {
+    dealCards(1, player);
+    render();
+    //check outcome?
+    player.handVal = 22;
+    //     if (player.handVal > 21) {
+    //         setTimeout(function () {
+    //             alert('busted');
+    //         }, 100)
+    //     }
+    // }
 }
 
-function dealCards() {
-    for (let i = 0; i < 2; i++) {
-        let nextCard = shuffledDeck.shift();
-        player.hand.push(nextCard.value);
-        player.imgLookup.push(nextCard.face);
-        nextCard = shuffledDeck.shift();
-        dealer.hand.push(nextCard.value);
-        dealer.imgLookup.push(nextCard.face);
-        render();
+function handleWager() { //checks to see if player has enough money, removes money from wallet
+    const wagerAmt = parseInt(wagerInputEl.value)
+    if (wagerAmt > player.wallet) {
+        alert('not enough money');
     }
+    else {
+        player.wallet -= parseInt(wagerInputEl.value);
+        dealCards(2, player);
+        dealCards(2, dealer);
+    }
+}
+function dealCards(amount, user) {
+    for (let i = 0; i < amount; i++) {
+        let nextCard = shuffledDeck.shift()
+        user.hand.push(nextCard.value);
+        user.imgLookup.push(nextCard.face)
+    }
+    render();
 }
 
 function handleStay() {
-
+    getHandTotal(user);
     render();
+}
+function getHandTotal(user) {
+    user.hand.forEach(function (card) {
+        user.handVal += card;
+        aceCount = 0;
+        if (card === 11) {
+            aceCount++;
+        }
+        user.handVal -= 10 * aceCount
+    })
+    return user.handVal;
 }
 
 function render() {
     renderCards();
+    renderWalletMsg();
 }
 
 function checkOutcome() {
+
+}
+
+function renderWalletMsg() {
 
 }
 
