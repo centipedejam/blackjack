@@ -25,7 +25,7 @@ init();
 function init() {
     shuffledDeck = shuffleNewDeck();
     player = {
-        hand: [10, 2, 11, 11, 11],
+        hand: [],
         imgLookup: [],
         wallet: 200,
         handVal: 0
@@ -41,16 +41,15 @@ function init() {
 
 function handleHit() {
     dealCards(1, player);
-    render();
     //check outcome?
     player.handVal = 22;
-    //     if (player.handVal > 21) {
-    //         setTimeout(function () {
-    //             alert('busted');
-    //         }, 100)
-    //     }
-    // }
+    if (getHandTotal(player) > 21) {
+        setTimeout(function () {
+            alert('busted');
+        }, 100)
+    }
 }
+
 
 function handleWager() { //checks to see if player has enough money, removes money from wallet
     const wagerAmt = parseInt(wagerInputEl.value)
@@ -73,17 +72,26 @@ function dealCards(amount, user) {
 }
 
 function handleStay() {
-    getHandTotal(user);
+    getHandTotal(player);
+    getHandTotal(dealer);
+    while (getHandTotal(dealer) < 17) {
+        dealCards(1, dealer);
+        getHandTotal(dealer);
+    }
     render();
 }
 function getHandTotal(user) {
-    user.hand.forEach(function (card) {
+    user.handVal = 0;
+    aceCount = 0;
+    user.hand.forEach(function (card, idx) {
         user.handVal += card;
-        aceCount = 0;
         if (card === 11) {
             aceCount++;
         }
-        user.handVal -= 10 * aceCount
+        if (aceCount && user.handVal > 21) {
+            user.handVal -= 10 * aceCount;
+            user.hand[idx - 1] = 1;
+        }
     })
     return user.handVal;
 }
