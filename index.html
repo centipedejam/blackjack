@@ -6,24 +6,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blackjack</title>
     <script defer src="js/main.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=ADLaM+Display&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/card-library/css/cardstarter.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
-    <div id="user-msg">User Hand</div>
-    <div id="dealer-msg">Dealer Hand</div>
+
+    <div id="user-msg">
+        <p>User Hand</p>
+    </div>
+    <div>
+        <h1>Blackjack</h1>
+    </div>
+    <div id="dealer-msg">
+        <p>Dealer Hand</p>
+    </div>
     <div id="u-cards"></div>
     <div id="deck">Deck</div>
     <div id="d-cards"></div>
     <div id="controls">Controls?</div>
-    <div id="hit-div"><button id="hit-btn">Hit</button></div>
+    <div id="hit-div"><button class="button-56" id="hit-btn">Hit</button></div>
     <div id="wager-msg">
-        <input id="wager-input" type="number">
-        <button id="wager-btn">Make Wager</button>
+        <form action="#">
+            <input id="wager-input" type="number">
+            <button class="button-56" id="wager-btn">Make Wager</button>
+        </form>
     </div>
-    <div id="stay"><button id="stay-btn">Stay</button></div>
-    <div id="wallet-wager-msg">Winnings</div>
+    <div id="stay"><button class="button-56" id="stay-btn">Stay</button></div>
+    <div id="wallet-wager-msg">
+        <div id="wallet-info">
+            <h2>Wallet</h2>
+            <p>Wager: $50</p>
+            <p>Wallet: $1000</p>
+            <p>Winnings: $950</p>
+        </div>
+    </div>
+
 </body>
 
 </html>

@@ -73,7 +73,6 @@ function dealCards(amount, user) {
 
 function handleStay() {
     getHandTotal(player);
-    getHandTotal(dealer);
     while (getHandTotal(dealer) < 17) {
         dealCards(1, dealer);
         getHandTotal(dealer);
