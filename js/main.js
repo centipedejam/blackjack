@@ -55,6 +55,7 @@ function handleWager() { //checks to see if player has enough money, removes mon
     const wagerAmt = parseInt(wagerInputEl.value)
     if (wagerAmt > player.wallet) {
         alert('not enough money');
+
     }
     else {
         player.wallet -= parseInt(wagerInputEl.value);
@@ -73,6 +74,7 @@ function dealCards(amount, user) {
 
 function handleStay() {
     getHandTotal(player);
+
     while (getHandTotal(dealer) < 17) {
         dealCards(1, dealer);
         getHandTotal(dealer);
@@ -94,6 +96,7 @@ function getHandTotal(user) {
     })
     return user.handVal;
 }
+
 
 function render() {
     renderCards();
