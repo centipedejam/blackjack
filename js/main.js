@@ -60,7 +60,6 @@ function handleWager() { //checks to see if player has enough money, removes mon
         msgEl.innerText = 'Not Enough Money!';
     }
     else {
-        wallet -= parseInt(wagerInputEl.value);
         player.wager += parseInt(wagerInputEl.value);
         dealCards(2, player);
         dealCards(2, dealer);
@@ -113,8 +112,11 @@ function render() {
 
 function updateWallet() {
     if (outcome === 'pWin') {
-        wallet += 500;
-        console.log(wallet)
+        wallet += player.wager;
+    } else if (outcome === 'pBlackjackW') {
+        wallet += player.wager * 1.5;
+    } else if (outcome === 'pLose') {
+        wallet -= player.wager;
     }
 }
 
@@ -148,6 +150,7 @@ function checkBlackjack() {
     else if (dealer.handVal === 21) {
         outcome = 'pLose'
     }
+    updateWallet();
     render();
 }
 
@@ -175,9 +178,7 @@ function checkOutcome() {
     } else {
         outcome = 'pLose';
     }
-    if (outcome) {
-        updateWallet();
-    }
+    updateWallet();
     render();
 }
 
