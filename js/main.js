@@ -8,27 +8,33 @@ let shuffledDeck;
 let player;
 let dealer;
 let outcome; // pBlackjackW, pWin, pLose, push
+let wallet;
 
 /*----- cached elements  -----*/
 const userCardsEl = document.getElementById('u-cards');
 const dealerCardsEl = document.getElementById('d-cards');
 const wagerInputEl = document.getElementById('wager-input');
+const msgEl = document.getElementById('display-msg');
 
 /*----- event listeners -----*/
 document.getElementById('stay-btn').addEventListener('click', handleStay);
 document.getElementById('wager-btn').addEventListener('click', handleWager);
 document.getElementById('hit-btn').addEventListener('click', handleHit);
+document.getElementById('play-again-btn').addEventListener('click', function () {
+    init(wallet);
+});
 
 /*----- functions -----*/
-init();
 
-function init() {
+init(200);
+
+function init(money) {
     shuffledDeck = shuffleNewDeck();
     player = {
         hand: [],
         imgLookup: [],
-        wallet: 200,
-        handVal: 0
+        handVal: 0,
+        wager: 0
     }
     dealer = {
         hand: [],
@@ -36,7 +42,9 @@ function init() {
         handVal: 0
     }
     outcome = null;
+    wallet = money
     render();
+
 }
 
 
@@ -48,12 +56,12 @@ function handleHit() {
 
 function handleWager() { //checks to see if player has enough money, removes money from wallet
     const wagerAmt = parseInt(wagerInputEl.value)
-    if (wagerAmt > player.wallet) {
-        alert('not enough money');
-
+    if (wagerAmt > wallet) {
+        msgEl.innerText = 'Not Enough Money!';
     }
     else {
-        player.wallet -= parseInt(wagerInputEl.value);
+        wallet -= parseInt(wagerInputEl.value);
+        player.wager += parseInt(wagerInputEl.value);
         dealCards(2, player);
         dealCards(2, dealer);
         checkBlackjack();
@@ -103,6 +111,13 @@ function render() {
     }
 }
 
+function updateWallet() {
+    if (outcome === 'pWin') {
+        wallet += 500;
+        console.log(wallet)
+    }
+}
+
 function renderWinner() {
     const winnerEl = document.querySelector('p')
     console.log(outcome)
@@ -110,7 +125,12 @@ function renderWinner() {
         winnerEl.innerText = 'Player Wins!'
     } else if (outcome === 'pLose') {
         winnerEl.innerText = 'Dealer Wins!'
-    } else {
+
+    } else if (outcome === 'pBlackjackW') {
+        winnerEl.innerText = 'Player Wins with a Blackjack!'
+
+    }
+    else {
         winnerEl.innerText = "It's a draw!"
     }
 }
@@ -154,6 +174,9 @@ function checkOutcome() {
         outcome = 'push';
     } else {
         outcome = 'pLose';
+    }
+    if (outcome) {
+        updateWallet();
     }
     render();
 }
