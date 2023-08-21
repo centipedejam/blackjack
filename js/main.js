@@ -9,12 +9,14 @@ let player;
 let dealer;
 let outcome; // pBlackjackW, pWin, pLose, push
 let wallet;
+let winnings;
 
 /*----- cached elements  -----*/
 const userCardsEl = document.getElementById('u-cards');
 const dealerCardsEl = document.getElementById('d-cards');
 const wagerInputEl = document.getElementById('wager-input');
 const msgEl = document.getElementById('display-msg');
+const walletEl = document.getElementById('wallet-info');
 
 /*----- event listeners -----*/
 document.getElementById('stay-btn').addEventListener('click', handleStay);
@@ -23,9 +25,7 @@ document.getElementById('hit-btn').addEventListener('click', handleHit);
 document.getElementById('play-again-btn').addEventListener('click', function () {
     init(wallet);
 });
-
 /*----- functions -----*/
-
 init(200);
 
 function init(money) {
@@ -44,15 +44,12 @@ function init(money) {
     outcome = null;
     wallet = money
     render();
-
 }
-
 
 function handleHit() {
     dealCards(1, player);
     checkBust();
 }
-
 
 function handleWager() { //checks to see if player has enough money, removes money from wallet
     const wagerAmt = parseInt(wagerInputEl.value)
@@ -66,6 +63,7 @@ function handleWager() { //checks to see if player has enough money, removes mon
         checkBlackjack();
     }
 }
+
 function dealCards(amount, user) {
     for (let i = 0; i < amount; i++) {
         let nextCard = shuffledDeck.shift()
@@ -77,7 +75,6 @@ function dealCards(amount, user) {
 
 function handleStay() {
     getHandTotal(dealer);
-
     while (getHandTotal(dealer) < 17) {
         dealCards(1, dealer);
         // getHandTotal(dealer);
@@ -85,6 +82,7 @@ function handleStay() {
     checkOutcome();
     render();
 }
+
 function getHandTotal(user) {
     user.handVal = 0;
     aceCount = 0;
@@ -100,7 +98,6 @@ function getHandTotal(user) {
     })
     return user.handVal;
 }
-
 
 function render() {
     renderCards();
@@ -122,7 +119,9 @@ function updateWallet() {
 
 function renderWinner() {
     const winnerEl = document.querySelector('p')
-    console.log(outcome)
+    faceDownCard = document.querySelector('.back-red');
+    faceDownCard.classList.remove('back-red');
+    faceDownCard.classList.add(`${dealer.imgLookup[0]}`);
     if (outcome === 'pWin') {
         winnerEl.innerText = 'Player Wins!'
     } else if (outcome === 'pLose') {
@@ -130,9 +129,7 @@ function renderWinner() {
 
     } else if (outcome === 'pBlackjackW') {
         winnerEl.innerText = 'Player Wins with a Blackjack!'
-
-    }
-    else {
+    } else {
         winnerEl.innerText = "It's a draw!"
     }
 }
@@ -183,7 +180,10 @@ function checkOutcome() {
 }
 
 function renderWalletMsg() {
-
+    const wagerEl = document.getElementById('wager-amt');
+    const walletEl = document.getElementById('wallet-amt');
+    wagerEl.innerText = `Wager: ${player.wager}`;
+    walletEl.innerText = `Wallet: ${wallet}`;
 }
 
 function renderCards() {//clears html/card imgs, renders all cards currently in player and dealer hand
@@ -194,7 +194,7 @@ function renderCards() {//clears html/card imgs, renders all cards currently in 
     })
     dealer.imgLookup.forEach(function (face) {
         if (face === dealer.imgLookup[0]) {
-            dealerCardsEl.innerHTML += `<div class="card ${face} d-xlarge shadow"></div>`;
+            dealerCardsEl.innerHTML += `<div class="card back-red d-xlarge shadow down"></div>`;
         } else {
             dealerCardsEl.innerHTML += `<div class="card ${face} d-xlarge shadow"></div>`;
         }
