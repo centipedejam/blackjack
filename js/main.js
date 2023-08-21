@@ -35,14 +35,14 @@ function init() {
         imgLookup: [],
         handVal: 0
     }
-    outcome = ''
+    outcome = null;
     render();
 }
 
 
 function handleHit() {
     dealCards(1, player);
-    checkOutcome();
+    checkBust();
 }
 
 
@@ -98,6 +98,21 @@ function getHandTotal(user) {
 function render() {
     renderCards();
     renderWalletMsg();
+    if (outcome) {
+        renderWinner();
+    }
+}
+
+function renderWinner() {
+    const winnerEl = document.querySelector('p')
+    console.log(outcome)
+    if (outcome === 'pWin') {
+        winnerEl.innerText = 'Player Wins!'
+    } else if (outcome === 'pLose') {
+        winnerEl.innerText = 'Dealer Wins!'
+    } else {
+        winnerEl.innerText = "It's a draw!"
+    }
 }
 
 function checkBlackjack() {
@@ -105,14 +120,23 @@ function checkBlackjack() {
     getHandTotal(player);
 
     if (player.handVal === 21 && dealer.handVal === 21) {
-        return outcome = 'push';
+        outcome = 'push';
     }
     else if (player.handVal === 21) {
-        return outcome = 'pBlackjackW'
+        outcome = 'pBlackjackW'
     }
     else if (dealer.handVal === 21) {
-        return outcome = 'pLose'
+        outcome = 'pLose'
     }
+    render();
+}
+
+function checkBust() {
+    getHandTotal(player);
+    if (player.handVal > 21) {
+        outcome = 'pLose';
+    }
+    render();
 }
 
 function checkOutcome() {
@@ -121,16 +145,17 @@ function checkOutcome() {
     console.log(player.handVal, 'player')
     console.log(dealer.handVal, 'dealer')
     if (player.handVal > 21) {
-        return outcome = 'pLose'
+        outcome = 'pLose'
     } else if (dealer.handVal > 21) {
-        return outcome = 'pWin';
+        outcome = 'pWin';
     } else if (player.handVal > dealer.handVal) {
-        return outcome = 'pWin';
+        outcome = 'pWin';
     } else if (player.handVal === dealer.handVal) {
-        return outcome = 'push';
+        outcome = 'push';
     } else {
-        return outcome = 'pLose';
+        outcome = 'pLose';
     }
+    render();
 }
 
 function renderWalletMsg() {
