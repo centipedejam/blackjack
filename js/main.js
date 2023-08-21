@@ -7,7 +7,7 @@ const unshuffledDeck = buildUnshuffledDeck();
 let shuffledDeck;
 let player;
 let dealer;
-let outcome;
+let outcome; // pBlackjackW, pWin, pLose, push
 
 /*----- cached elements  -----*/
 const userCardsEl = document.getElementById('u-cards');
@@ -35,19 +35,14 @@ function init() {
         imgLookup: [],
         handVal: 0
     }
+    outcome = ''
     render();
 }
 
 
 function handleHit() {
     dealCards(1, player);
-    //check outcome?
-    player.handVal = 22;
-    if (getHandTotal(player) > 21) {
-        setTimeout(function () {
-            alert('busted');
-        }, 100)
-    }
+    checkOutcome();
 }
 
 
@@ -61,6 +56,7 @@ function handleWager() { //checks to see if player has enough money, removes mon
         player.wallet -= parseInt(wagerInputEl.value);
         dealCards(2, player);
         dealCards(2, dealer);
+        checkBlackjack();
     }
 }
 function dealCards(amount, user) {
@@ -73,12 +69,13 @@ function dealCards(amount, user) {
 }
 
 function handleStay() {
-    getHandTotal(player);
+    getHandTotal(dealer);
 
     while (getHandTotal(dealer) < 17) {
         dealCards(1, dealer);
-        getHandTotal(dealer);
+        // getHandTotal(dealer);
     }
+    checkOutcome();
     render();
 }
 function getHandTotal(user) {
@@ -103,8 +100,37 @@ function render() {
     renderWalletMsg();
 }
 
-function checkOutcome() {
+function checkBlackjack() {
+    getHandTotal(dealer);
+    getHandTotal(player);
 
+    if (player.handVal === 21 && dealer.handVal === 21) {
+        return outcome = 'push';
+    }
+    else if (player.handVal === 21) {
+        return outcome = 'pBlackjackW'
+    }
+    else if (dealer.handVal === 21) {
+        return outcome = 'pLose'
+    }
+}
+
+function checkOutcome() {
+    getHandTotal(player);
+    getHandTotal(dealer);
+    console.log(player.handVal, 'player')
+    console.log(dealer.handVal, 'dealer')
+    if (player.handVal > 21) {
+        return outcome = 'pLose'
+    } else if (dealer.handVal > 21) {
+        return outcome = 'pWin';
+    } else if (player.handVal > dealer.handVal) {
+        return outcome = 'pWin';
+    } else if (player.handVal === dealer.handVal) {
+        return outcome = 'push';
+    } else {
+        return outcome = 'pLose';
+    }
 }
 
 function renderWalletMsg() {
@@ -119,7 +145,7 @@ function renderCards() {//clears html/card imgs, renders all cards currently in 
     })
     dealer.imgLookup.forEach(function (face) {
         if (face === dealer.imgLookup[0]) {
-            dealerCardsEl.innerHTML += `<div class="card back-red d-xlarge shadow"></div>`;
+            dealerCardsEl.innerHTML += `<div class="card ${face} d-xlarge shadow"></div>`;
         } else {
             dealerCardsEl.innerHTML += `<div class="card ${face} d-xlarge shadow"></div>`;
         }
