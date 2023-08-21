@@ -3,30 +3,26 @@
 }
 
 body {
-    margin: 4vmin;
     display: grid;
-    height: 95vh;
+    height: 50vh;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 3fr 4fr 4fr;
     box-sizing: border-box;
     font-family: 'ADLaM Display', cursive;
+    background-color: rgb(210, 210, 210);
+    box-sizing: border-box;
+    color: rgb(58, 58, 60);
 }
-
-
-h1 {
-    font-size: 10vmin;
-    border: 1.5vmin dotted black;
-    padding: 3vmin;
-    border-radius: 10%;
-    margin-top: 0;
-}
-
-
 
 div {
     display: flex;
     align-items: start;
     justify-content: center;
+}
+
+img {
+    height: 35vmin;
+    width: 35vmin;
 }
 
 
@@ -35,10 +31,12 @@ div {
     grid-row: 1;
     font-size: 4vmin;
     margin-top: 4vmin;
+    align-items: end;
+    padding-bottom: 5vmin;
 }
 
 div p:first-child {
-    border-bottom: 1vmin dotted black;
+    border-bottom: 1vmin dotted rgb(58, 58, 60);
 }
 
 #dealer-msg {
@@ -46,23 +44,28 @@ div p:first-child {
     grid-row: 1;
     font-size: 4vmin;
     margin-top: 4vmin;
+    align-items: end;
+    padding-bottom: 5vmin;
 }
 
 #u-cards {
-    grid-column: 1 / 4;
+    grid-column: 1 / 3;
     grid-row: 2;
     justify-content: start;
+    margin-left: 5vmin;
 }
 
 #deck {
     grid-column: 3;
-    grid-row: 2;
+    grid-row: 1 / 2;
+    margin: 0 auto;
 }
 
 #d-cards {
     grid-column: 4 / 6;
     grid-row: 2;
     justify-content: start;
+    height: 38vmin;
 }
 
 #controls {
@@ -84,6 +87,7 @@ div p:first-child {
     grid-column: 5;
     grid-row: 3;
     align-items: start;
+    justify-content: start;
 }
 
 #wallet-wager-msg div {
@@ -97,23 +101,39 @@ div p:first-child {
 }
 
 #stay-div {
+    grid-column: 4;
+    grid-row: 3;
     display: flex;
     justify-content: start;
     align-items: center;
 }
 
 #wager-input {
-    margin-bottom: 4vmin;
-    margin-left: 1.5vmin;
+    margin-top: 4vmin;
+    margin-left: 7.5vmin;
+    height: 5vmin;
+    width: 7vmin;
+    border: 0.5vmin solid rgb(41, 79, 76);
+    border-radius: 10%;
+    background-color: rgb(241, 231, 231);
+}
+
+#wager-input:hover {
+    border: 0.5vmin solid rgb(0, 0, 1);
+}
+
+#wager-input::placeholder {
+    text-align: center;
 }
 
 #wallet-info {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 1vmin 10vmin;
+    justify-content: start;
+    align-items: start;
+    padding: 0 2vmin;
     border-radius: 5%;
+
 }
 
 .flex-ctr {
@@ -182,10 +202,10 @@ div p:first-child {
 }
 
 #stay-btn {
-    background-color: #ed3030;
+    background-color: rgb(190, 80, 50);
 }
 
 #wager-btn {
-    background-color: rgb(47, 43, 43);
+    background-color: rgb(60, 60, 60);
     color: rgb(220, 232, 235);
 }

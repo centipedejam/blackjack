@@ -115,13 +115,13 @@ function renderCards() {//clears html/card imgs, renders all cards currently in 
     userCardsEl.innerHTML = '';
     dealerCardsEl.innerHTML = '';
     player.imgLookup.forEach(function (face) {
-        userCardsEl.innerHTML += `<div class="card ${face} u-xlarge"></div>`;
+        userCardsEl.innerHTML += `<div class="card ${face} u-xlarge shadow"></div>`;
     })
     dealer.imgLookup.forEach(function (face) {
         if (face === dealer.imgLookup[0]) {
-            dealerCardsEl.innerHTML += `<div class="card back-red d-xlarge"></div>`;
+            dealerCardsEl.innerHTML += `<div class="card back-red d-xlarge shadow"></div>`;
         } else {
-            dealerCardsEl.innerHTML += `<div class="card ${face} d-xlarge"></div>`;
+            dealerCardsEl.innerHTML += `<div class="card ${face} d-xlarge shadow"></div>`;
         }
     })
 }
