@@ -17,13 +17,13 @@ const dealerCardsEl = document.getElementById('d-cards');
 const wagerInputEl = document.getElementById('wager-input');
 const msgEl = document.getElementById('display-msg');
 const walletEl = document.getElementById('wallet-info');
-const playAgain = document.getElementById('play-again');
+const playAgainBtn = document.getElementById('play-again');
 
 /*----- event listeners -----*/
 document.getElementById('stay-btn').addEventListener('click', handleStay);
 document.getElementById('wager-btn').addEventListener('click', handleWager);
 document.getElementById('hit-btn').addEventListener('click', handleHit);
-playAgain.addEventListener('click', function () {
+playAgainBtn.addEventListener('click', function () {
     document.getElementById('hit-btn').style.display = 'block';
     document.getElementById('stay-btn').style.display = 'block';
     document.querySelector('form').style.display = 'block';
@@ -56,6 +56,7 @@ function handleHit() {
 }
 
 function handleStay() {
+    hideControls();
     getHandTotal(dealer);
     while (getHandTotal(dealer) < 17) {
         dealCards(1, dealer);
@@ -121,6 +122,9 @@ function checkBlackjack() {
     }
     updateWallet();
     render();
+    if (outcome) {
+        hideControls();
+    }
 }
 
 function checkBust() {
@@ -163,8 +167,14 @@ function updateWallet() {
     }
 }
 
+function hideControls() {
+    document.getElementById('hit-btn').style.display = 'none';
+    document.getElementById('stay-btn').style.display = 'none';
+}
+
+
 function render() {
-    playAgain.style.display = 'none';
+    playAgainBtn.style.display = 'none';
     renderCards();
     renderWalletMsg();
     if (outcome) {
@@ -173,7 +183,7 @@ function render() {
 }
 
 function renderWinner() {
-    playAgain.style.display = 'block';
+    playAgainBtn.style.display = 'block';
     faceDownCard = document.querySelector('.back-red');
     faceDownCard.classList.remove('back-red');
     faceDownCard.classList.add(`${dealer.imgLookup[0]}`);
