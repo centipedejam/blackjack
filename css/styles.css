@@ -209,3 +209,14 @@ div p:first-child {
     background-color: rgb(60, 60, 60);
     color: rgb(220, 232, 235);
 }
+
+#play-again {
+    grid-column: 3;
+    grid-row: 2;
+    height: 20vmin;
+    width: 20vmin;
+    border-radius: 50%;
+    margin: auto;
+    font-size: 5vmin;
+    display: none;
+}

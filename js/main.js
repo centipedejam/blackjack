@@ -17,18 +17,22 @@ const dealerCardsEl = document.getElementById('d-cards');
 const wagerInputEl = document.getElementById('wager-input');
 const msgEl = document.getElementById('display-msg');
 const walletEl = document.getElementById('wallet-info');
+const playAgain = document.getElementById('play-again');
 
 /*----- event listeners -----*/
 document.getElementById('stay-btn').addEventListener('click', handleStay);
 document.getElementById('wager-btn').addEventListener('click', handleWager);
 document.getElementById('hit-btn').addEventListener('click', handleHit);
-document.getElementById('play-again-btn').addEventListener('click', function () {
-    init(wallet);
+playAgain.addEventListener('click', function () {
+    document.getElementById('hit-btn').style.display = 'block';
+    document.getElementById('stay-btn').style.display = 'block';
+    document.querySelector('form').style.display = 'block';
+    init();
 });
 /*----- functions -----*/
 init(200);
 
-function init(money) {
+function init() {
     shuffledDeck = shuffleNewDeck();
     player = {
         hand: [],
@@ -42,35 +46,13 @@ function init(money) {
         handVal: 0
     }
     outcome = null;
-    wallet = money
+    wallet = wallet || 200;
     render();
 }
 
 function handleHit() {
     dealCards(1, player);
     checkBust();
-}
-
-function handleWager() { //checks to see if player has enough money, removes money from wallet
-    const wagerAmt = parseInt(wagerInputEl.value)
-    if (wagerAmt > wallet) {
-        msgEl.innerText = 'Not Enough Money!';
-    }
-    else {
-        player.wager += parseInt(wagerInputEl.value);
-        dealCards(2, player);
-        dealCards(2, dealer);
-        checkBlackjack();
-    }
-}
-
-function dealCards(amount, user) {
-    for (let i = 0; i < amount; i++) {
-        let nextCard = shuffledDeck.shift()
-        user.hand.push(nextCard.value);
-        user.imgLookup.push(nextCard.face)
-    }
-    render();
 }
 
 function handleStay() {
@@ -80,6 +62,31 @@ function handleStay() {
         // getHandTotal(dealer);
     }
     checkOutcome();
+    render();
+}
+
+function handleWager() { //checks to see if player has enough money, removes money from wallet
+    const wagerAmt = parseInt(wagerInputEl.value);
+    if (wagerAmt > wallet) {
+        return msgEl.innerText = 'Not Enough Money!';
+    } else if (wagerAmt < 1) {
+        return msgEl.innerText = 'Please enter a valid number';
+    }
+    else {
+        player.wager += wagerAmt;
+        dealCards(2, player);
+        dealCards(2, dealer);
+        checkBlackjack();
+        document.querySelector('form').style.display = 'none';
+    }
+}
+
+function dealCards(amount, user) {
+    for (let i = 0; i < amount; i++) {
+        let nextCard = shuffledDeck.shift()
+        user.hand.push(nextCard.value);
+        user.imgLookup.push(nextCard.face)
+    }
     render();
 }
 
@@ -97,41 +104,6 @@ function getHandTotal(user) {
         }
     })
     return user.handVal;
-}
-
-function render() {
-    renderCards();
-    renderWalletMsg();
-    if (outcome) {
-        renderWinner();
-    }
-}
-
-function updateWallet() {
-    if (outcome === 'pWin') {
-        wallet += player.wager;
-    } else if (outcome === 'pBlackjackW') {
-        wallet += player.wager * 1.5;
-    } else if (outcome === 'pLose') {
-        wallet -= player.wager;
-    }
-}
-
-function renderWinner() {
-    const winnerEl = document.querySelector('p')
-    faceDownCard = document.querySelector('.back-red');
-    faceDownCard.classList.remove('back-red');
-    faceDownCard.classList.add(`${dealer.imgLookup[0]}`);
-    if (outcome === 'pWin') {
-        winnerEl.innerText = 'Player Wins!'
-    } else if (outcome === 'pLose') {
-        winnerEl.innerText = 'Dealer Wins!'
-
-    } else if (outcome === 'pBlackjackW') {
-        winnerEl.innerText = 'Player Wins with a Blackjack!'
-    } else {
-        winnerEl.innerText = "It's a draw!"
-    }
 }
 
 function checkBlackjack() {
@@ -156,6 +128,7 @@ function checkBust() {
     if (player.handVal > 21) {
         outcome = 'pLose';
     }
+    updateWallet();
     render();
 }
 
@@ -175,8 +148,46 @@ function checkOutcome() {
     } else {
         outcome = 'pLose';
     }
+    document.getElementById('hit-btn').style.display = 'none';
+    document.getElementById('stay-btn').style.display = 'none';
     updateWallet();
     render();
+}
+
+function updateWallet() {
+    if (outcome === 'pWin') {
+        wallet += player.wager;
+    } else if (outcome === 'pBlackjackW') {
+        wallet += player.wager * 1.5;
+    } else if (outcome === 'pLose') {
+        wallet -= player.wager;
+    }
+}
+
+function render() {
+    playAgain.style.display = 'none';
+    renderCards();
+    renderWalletMsg();
+    if (outcome) {
+        renderWinner();
+    }
+}
+
+function renderWinner() {
+    playAgain.style.display = 'block';
+    faceDownCard = document.querySelector('.back-red');
+    faceDownCard.classList.remove('back-red');
+    faceDownCard.classList.add(`${dealer.imgLookup[0]}`);
+    if (outcome === 'pWin') {
+        msgEl.innerText = 'Player Wins!'
+    } else if (outcome === 'pLose') {
+        msgEl.innerText = 'Dealer Wins!'
+
+    } else if (outcome === 'pBlackjackW') {
+        msgEl.innerText = 'Player Wins with a Blackjack!'
+    } else {
+        msgEl.innerText = "It's a draw!"
+    }
 }
 
 function renderWalletMsg() {
