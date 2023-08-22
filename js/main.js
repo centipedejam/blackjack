@@ -98,9 +98,9 @@ function getHandTotal(user) {
         if (card === 11) {
             aceCount++;
         }
-        if (aceCount && user.handVal > 21) {
-            user.handVal -= 10 * aceCount;
-            user.hand[idx - 1] = 1;
+        while (aceCount && user.handVal > 21) {
+            user.handVal -= 10;
+            aceCount--;
         }
     })
     return user.handVal;
@@ -125,6 +125,7 @@ function checkBlackjack() {
 
 function checkBust() {
     getHandTotal(player);
+    console.log(player.handVal)
     if (player.handVal > 21) {
         outcome = 'pLose';
     }
@@ -135,8 +136,6 @@ function checkBust() {
 function checkOutcome() {
     getHandTotal(player);
     getHandTotal(dealer);
-    console.log(player.handVal, 'player')
-    console.log(dealer.handVal, 'dealer')
     if (player.handVal > 21) {
         outcome = 'pLose'
     } else if (dealer.handVal > 21) {
