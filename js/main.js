@@ -24,6 +24,7 @@ const newCard = document.createElement('div');
 document.getElementById('stay-btn').addEventListener('click', handleStay);
 document.getElementById('wager-btn').addEventListener('click', handleWager);
 document.getElementById('hit-btn').addEventListener('click', handleHit);
+document.getElementById('rules-btn').addEventListener('click', toggleRules)
 playAgainBtn.addEventListener('click', function () {
     document.querySelector('form').style.display = 'block';
     msgEl.innerText = '';
@@ -83,6 +84,7 @@ function handleWager() {
         document.getElementById('stay-btn').style.display = 'block';
 
     }
+    document.querySelector('ul').classList.add('hidden');
 }
 
 function dealCards(amount, user) {
@@ -133,6 +135,7 @@ function checkBust() {
     getHandTotal(player);
     if (player.handVal > 21) {
         outcome = 'pLose';
+        hideControls();
     }
     updateWallet();
     render();
@@ -166,6 +169,10 @@ function updateWallet() {
     } else if (outcome === 'pLose') {
         wallet -= player.wager;
     }
+}
+
+function toggleRules() {
+    document.querySelector('ul').classList.toggle('hidden');
 }
 
 function hideControls() {

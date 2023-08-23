@@ -130,12 +130,14 @@ div p:first-child {
 
 #wager-input {
     margin-top: 4vmin;
-    margin-left: 7.5vmin;
-    height: 5vmin;
-    width: 7vmin;
+    margin-left: 6.5vmin;
+    height: 7vmin;
+    width: 9vmin;
     border: 0.5vmin solid rgb(41, 79, 76);
     border-radius: 10%;
     background-color: rgb(241, 231, 231);
+    font-family: 'ADLaM Display', cursive;
+    font-size: 3.5vmin;
 }
 
 #wager-input:hover {
@@ -240,4 +242,18 @@ div p:first-child {
     font-size: 5vmin;
     display: none;
     font-family: 'ADLaM Display', cursive;
+}
+
+#rules-list {
+    grid-column: 3;
+    grid-row: 2;
+    font-size: 3vmin;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+#rules-btn {
+    margin-top: 10vmin;
 }
