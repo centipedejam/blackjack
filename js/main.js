@@ -18,6 +18,7 @@ const wagerInputEl = document.getElementById('wager-input');
 const msgEl = document.getElementById('display-msg');
 const walletEl = document.getElementById('wallet-info');
 const playAgainBtn = document.getElementById('play-again');
+const newCard = document.createElement('div');
 
 /*----- event listeners -----*/
 document.getElementById('stay-btn').addEventListener('click', handleStay);
@@ -27,6 +28,7 @@ playAgainBtn.addEventListener('click', function () {
     document.getElementById('hit-btn').style.display = 'block';
     document.getElementById('stay-btn').style.display = 'block';
     document.querySelector('form').style.display = 'block';
+    msgEl.innerText = '';
     init();
 });
 /*----- functions -----*/
@@ -63,7 +65,6 @@ function handleStay() {
         // getHandTotal(dealer);
     }
     checkOutcome();
-    render();
 }
 
 function handleWager() { //checks to see if player has enough money, removes money from wallet
@@ -74,7 +75,7 @@ function handleWager() { //checks to see if player has enough money, removes mon
         return msgEl.innerText = 'Please enter a valid number';
     }
     else {
-        player.wager += wagerAmt;
+        player.wager = wagerAmt;
         dealCards(2, player);
         dealCards(2, dealer);
         checkBlackjack();
@@ -88,7 +89,7 @@ function dealCards(amount, user) {
         user.hand.push(nextCard.value);
         user.imgLookup.push(nextCard.face)
     }
-    render();
+    // render();
 }
 
 function getHandTotal(user) {
@@ -188,9 +189,11 @@ function renderWinner() {
     faceDownCard.classList.remove('back-red');
     faceDownCard.classList.add(`${dealer.imgLookup[0]}`);
     if (outcome === 'pWin') {
-        msgEl.innerText = 'Player Wins!'
+        msgEl.style.color = 'green'
+        msgEl.innerText = `Player Wins! \n${player.handVal} to ${dealer.handVal}`;
     } else if (outcome === 'pLose') {
-        msgEl.innerText = 'Dealer Wins!'
+        msgEl.style.color = 'red'
+        msgEl.innerText = `Dealer Wins! \n${dealer.handVal} to ${player.handVal}`
 
     } else if (outcome === 'pBlackjackW') {
         msgEl.innerText = 'Player Wins with a Blackjack!'
