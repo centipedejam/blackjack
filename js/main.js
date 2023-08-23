@@ -25,8 +25,6 @@ document.getElementById('stay-btn').addEventListener('click', handleStay);
 document.getElementById('wager-btn').addEventListener('click', handleWager);
 document.getElementById('hit-btn').addEventListener('click', handleHit);
 playAgainBtn.addEventListener('click', function () {
-    // document.getElementById('hit-btn').style.display = 'block';
-    // document.getElementById('stay-btn').style.display = 'block';
     document.querySelector('form').style.display = 'block';
     msgEl.innerText = '';
     msgEl.style.display = 'block'
@@ -63,12 +61,11 @@ function handleStay() {
     getHandTotal(dealer);
     while (getHandTotal(dealer) < 17) {
         dealCards(1, dealer);
-        // getHandTotal(dealer);
     }
     checkOutcome();
 }
 
-function handleWager() { //checks to see if player has enough money, removes money from wallet
+function handleWager() {
     const wagerAmt = parseInt(wagerInputEl.value);
     if (wagerAmt > wallet) {
         return msgEl.innerText = 'Not Enough Money!';
@@ -94,7 +91,6 @@ function dealCards(amount, user) {
         user.hand.push(nextCard.value);
         user.imgLookup.push(nextCard.face)
     }
-    // render();
 }
 
 function getHandTotal(user) {
@@ -177,7 +173,6 @@ function hideControls() {
     document.getElementById('stay-btn').style.display = 'none';
 }
 
-
 function render() {
     playAgainBtn.style.display = 'none';
     renderCards();
@@ -193,17 +188,18 @@ function renderWinner() {
     faceDownCard.classList.remove('back-red');
     faceDownCard.classList.add(`${dealer.imgLookup[0]}`);
     if (outcome === 'pWin') {
-        msgEl.style.color = 'green'
+        msgEl.style.color = 'green';
         msgEl.innerText = `Player Wins! \n${player.handVal} to ${dealer.handVal}`;
     } else if (outcome === 'pLose') {
-        msgEl.style.color = 'red'
-        msgEl.innerText = `Dealer Wins! \n${dealer.handVal} to ${player.handVal}`
+        msgEl.style.color = 'red';
+        msgEl.innerText = `Dealer Wins! \n${dealer.handVal} to ${player.handVal}`;
 
     } else if (outcome === 'pBlackjackW') {
         msgEl.style.color = 'green';
-        msgEl.innerText = 'Player Wins with a Blackjack!'
+        msgEl.innerText = 'Player Wins with a Blackjack!';
     } else {
-        msgEl.innerText = "It's a draw!"
+        msgEl.style.color = 'rgb(50, 50, 50)';
+        msgEl.innerText = `It's a draw!\n${player.handVal} to ${dealer.handVal}`;
     }
 }
 
