@@ -4,7 +4,7 @@
 
 body {
     display: grid;
-    height: 90vh;
+    height: 100vh;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 3fr 4fr 4fr;
     box-sizing: border-box;
@@ -12,6 +12,7 @@ body {
     background-color: rgb(227, 229, 230);
     box-sizing: border-box;
     color: rgb(58, 58, 60);
+    margin: 0 auto;
 }
 
 div {
@@ -110,10 +111,10 @@ div p:first-child {
     grid-row: 3;
     align-items: start;
     justify-content: start;
-    margin-top: -7vmin;
-    font-size: 2vmin;
+    margin-top: -10vmin;
+    font-size: 3.5vmin;
     line-height: 0.5vmin;
-    font-family: 'ADLaM Display', cursive;
+    font-family: 'Tangerine', cursive;
 }
 
 #wallet-wager-msg div {
@@ -236,19 +237,18 @@ div p:first-child {
 #play-again {
     grid-column: 3;
     grid-row: 2;
-    height: 20vmin;
-    width: 20vmin;
+    height: 15vmin;
+    width: 15vmin;
     border-radius: 50%;
     margin: 15vmin auto;
-    font-size: 5vmin;
-    display: none;
+    font-size: 4vmin;
     font-family: 'ADLaM Display', cursive;
 }
 
 #rules-list {
     grid-column: 3;
     grid-row: 2;
-    font-size: 3vmin;
+    font-size: 3.3vmin;
     line-height: 5vmin;
     color: black;
 }

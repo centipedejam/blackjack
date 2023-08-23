@@ -29,6 +29,7 @@ playAgainBtn.addEventListener('click', function () {
     document.querySelector('form').style.display = 'block';
     msgEl.innerText = '';
     msgEl.style.display = 'block'
+    playAgainBtn.style.visibility = 'hidden';
     init();
 });
 /*----- functions -----*/
@@ -69,7 +70,7 @@ function handleStay() {
 function handleWager() {
     const wagerAmt = parseInt(wagerInputEl.value);
     if (wagerAmt > wallet) {
-        return msgEl.innerText = 'Not Enough Money!';
+        return msgEl.innerText = `Please enter valid wager\nCurrent balance: $${wallet}`;
     } else if (wagerAmt < 1) {
         return msgEl.innerText = 'Please enter a valid number';
     }
@@ -181,7 +182,6 @@ function hideControls() {
 }
 
 function render() {
-    playAgainBtn.style.display = 'none';
     renderCards();
     renderWalletMsg();
     if (outcome) {
@@ -190,7 +190,8 @@ function render() {
 }
 
 function renderWinner() {
-    playAgainBtn.style.display = 'block';
+    playAgainBtn.classList.remove('hidden');
+    playAgainBtn.style.visibility = 'visible';
     faceDownCard = document.querySelector('.back-red');
     faceDownCard.classList.add(`${dealer.imgLookup[0]}`);
     faceDownCard.classList.remove('back-red');
@@ -198,17 +199,17 @@ function renderWinner() {
 
     if (outcome === 'pWin') {
         msgEl.style.color = 'green';
-        msgEl.innerText = `Player Wins! \n${player.handVal} to ${dealer.handVal}`;
+        msgEl.innerText = `Player Wins $${player.wager}! \n${player.handVal} to ${dealer.handVal}`;
     } else if (outcome === 'pLose') {
         msgEl.style.color = 'red';
-        msgEl.innerText = `Dealer Wins! \n${dealer.handVal} to ${player.handVal}`;
+        msgEl.innerText = `Player loses $${player.wager} ! \n${player.handVal} to ${dealer.handVal}`;
 
     } else if (outcome === 'pBlackjackW') {
         msgEl.style.color = 'green';
-        msgEl.innerText = 'Player Wins with a Blackjack!';
+        msgEl.innerText = `Player Wins $${player.wager * 1.5} with a Blackjack!`;
     } else if (outcome === 'pBlackjackL') {
         msgEl.style.color = 'red';
-        msgEl.innerText = 'Dealer Wins with a Blackjack!';
+        msgEl.innerText = `Player loses $${player.wager} on a dealer Blackjack!`;
     }
     else {
         msgEl.style.color = 'rgb(50, 50, 50)';

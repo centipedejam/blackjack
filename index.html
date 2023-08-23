@@ -21,7 +21,7 @@
     </div>
     <div id="display-msg">
     </div>
-    <button id="play-again">Next Hand</button>
+    <button id="play-again" class="hidden">Next Hand</button>
     <div id="dealer-msg">
         <p>Dealer's Hand</p>
     </div>
@@ -29,7 +29,7 @@
     <div id="deck" class=""><img src="css/card-library/images/pngwing.com.png" alt=""></div>
     <div id="d-cards"></div>
     <div>
-        <button id="rules-btn" class="button-56">How To Play</button>
+        <button id="rules-btn" class="button-56 hidden">How To Play</button>
     </div>
     <ul id="rules-list">
         <li>1. Enter a wager that is lower than your current wallet amount (see bottom right). </li>
@@ -51,7 +51,7 @@
         <div id="wallet-info">
             <h2>Wallet</h2>
             <p id="wager-amt">Wager: $50</p>
-            <p id="wallet-amt">Wallet: $1000</p>
+            <p id="wallet-amt">Wallet: <span id="wallet-span">$1000</span></p>
             <!-- <p id="winnings">Winnings: $950</p> -->
         </div>
     </div>
