@@ -25,10 +25,11 @@ document.getElementById('stay-btn').addEventListener('click', handleStay);
 document.getElementById('wager-btn').addEventListener('click', handleWager);
 document.getElementById('hit-btn').addEventListener('click', handleHit);
 playAgainBtn.addEventListener('click', function () {
-    document.getElementById('hit-btn').style.display = 'block';
-    document.getElementById('stay-btn').style.display = 'block';
+    // document.getElementById('hit-btn').style.display = 'block';
+    // document.getElementById('stay-btn').style.display = 'block';
     document.querySelector('form').style.display = 'block';
     msgEl.innerText = '';
+    msgEl.style.display = 'block'
     init();
 });
 /*----- functions -----*/
@@ -79,7 +80,11 @@ function handleWager() { //checks to see if player has enough money, removes mon
         dealCards(2, player);
         dealCards(2, dealer);
         checkBlackjack();
+        msgEl.innerText = ''
         document.querySelector('form').style.display = 'none';
+        document.getElementById('hit-btn').style.display = 'block';
+        document.getElementById('stay-btn').style.display = 'block';
+
     }
 }
 
@@ -130,7 +135,6 @@ function checkBlackjack() {
 
 function checkBust() {
     getHandTotal(player);
-    console.log(player.handVal)
     if (player.handVal > 21) {
         outcome = 'pLose';
     }
@@ -196,6 +200,7 @@ function renderWinner() {
         msgEl.innerText = `Dealer Wins! \n${dealer.handVal} to ${player.handVal}`
 
     } else if (outcome === 'pBlackjackW') {
+        msgEl.style.color = 'green';
         msgEl.innerText = 'Player Wins with a Blackjack!'
     } else {
         msgEl.innerText = "It's a draw!"
