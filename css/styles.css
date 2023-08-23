@@ -45,6 +45,7 @@ img {
 
 div p:first-child {
     border-bottom: 0.65vmin solid rgb(58, 58, 60);
+    border-radius: 25%;
 }
 
 #dealer-msg {
@@ -130,7 +131,7 @@ div p:first-child {
 
 #wager-input {
     margin-top: 4vmin;
-    margin-left: 6.5vmin;
+    margin-left: 5.5vmin;
     height: 7vmin;
     width: 9vmin;
     border: 0.5vmin solid rgb(41, 79, 76);
@@ -248,6 +249,8 @@ div p:first-child {
     grid-column: 3;
     grid-row: 2;
     font-size: 3vmin;
+    line-height: 5vmin;
+    color: black;
 }
 
 .hidden {

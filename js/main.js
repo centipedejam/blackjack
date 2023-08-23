@@ -122,12 +122,12 @@ function checkBlackjack() {
         outcome = 'pBlackjackW'
     }
     else if (dealer.handVal === 21) {
-        outcome = 'pLose'
+        outcome = 'pBlackjackL'
     }
     updateWallet();
     render();
     if (outcome) {
-        hideControls();
+        renderWinner();
     }
 }
 
@@ -166,7 +166,7 @@ function updateWallet() {
         wallet += player.wager;
     } else if (outcome === 'pBlackjackW') {
         wallet += player.wager * 1.5;
-    } else if (outcome === 'pLose') {
+    } else if (outcome === 'pLose' || outcome === 'pBlackjackL') {
         wallet -= player.wager;
     }
 }
@@ -192,8 +192,10 @@ function render() {
 function renderWinner() {
     playAgainBtn.style.display = 'block';
     faceDownCard = document.querySelector('.back-red');
-    faceDownCard.classList.remove('back-red');
     faceDownCard.classList.add(`${dealer.imgLookup[0]}`);
+    faceDownCard.classList.remove('back-red');
+    document.getElementById('rules-list').style.visibility = 'hidden';
+
     if (outcome === 'pWin') {
         msgEl.style.color = 'green';
         msgEl.innerText = `Player Wins! \n${player.handVal} to ${dealer.handVal}`;
@@ -204,7 +206,11 @@ function renderWinner() {
     } else if (outcome === 'pBlackjackW') {
         msgEl.style.color = 'green';
         msgEl.innerText = 'Player Wins with a Blackjack!';
-    } else {
+    } else if (outcome === 'pBlackjackL') {
+        msgEl.style.color = 'red';
+        msgEl.innerText = 'Dealer Wins with a Blackjack!';
+    }
+    else {
         msgEl.style.color = 'rgb(50, 50, 50)';
         msgEl.innerText = `It's a draw!\n${player.handVal} to ${dealer.handVal}`;
     }
