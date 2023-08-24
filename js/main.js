@@ -30,6 +30,7 @@ playAgainBtn.addEventListener('click', function () {
     msgEl.innerText = '';
     msgEl.style.display = 'block'
     playAgainBtn.style.visibility = 'hidden';
+    stayNextSound();
     init();
 });
 /*----- functions -----*/
@@ -54,6 +55,7 @@ function init() {
 }
 
 function handleHit() {
+    clickSound();
     dealCards(1, player);
     checkBust();
 }
@@ -70,11 +72,14 @@ function handleStay() {
 function handleWager() {
     const wagerAmt = parseFloat(wagerInputEl.value);
     if (wagerAmt > wallet) {
-        return msgEl.innerText = `Please enter valid wager\nCurrent balance: $${wallet}`;
-    } else if (wagerAmt < 1) {
-        return msgEl.innerText = 'Please enter a valid number';
+        clickErrorSound();
+        msgEl.innerText = `Please enter valid wager\nCurrent balance: $${wallet}`;
+    } else if (wagerAmt < 0) {
+        clickErrorSound();
+        msgEl.innerText = 'Please enter a valid number';
     }
     else {
+        wagerSound();
         player.wager = wagerAmt;
         dealCards(2, player);
         dealCards(2, dealer);
@@ -128,6 +133,7 @@ function checkBlackjack() {
     updateWallet();
     render();
     if (outcome) {
+        document.querySelector('form').style.display = 'none';
         renderWinner();
     }
 }
@@ -199,21 +205,26 @@ function renderWinner() {
 
     if (outcome === 'pWin') {
         msgEl.style.color = 'green';
-        msgEl.innerText = `Player Wins $${player.wager}! \n${player.handVal} to ${dealer.handVal}`;
+        msgEl.innerText = `Player Wins $${player.wager}! \n(${player.handVal} to ${dealer.handVal})`;
+        cashRegisterSound();
     } else if (outcome === 'pLose') {
         msgEl.style.color = 'red';
-        msgEl.innerText = `Player loses $${player.wager} ! \n${player.handVal} to ${dealer.handVal}`;
+        msgEl.innerText = `Player loses $${player.wager} ! \n(${player.handVal} to ${dealer.handVal})`;
+        loseSound();
 
     } else if (outcome === 'pBlackjackW') {
         msgEl.style.color = 'green';
+        cashRegisterSound();
         msgEl.innerText = `Player Wins $${player.wager * 1.5} with a Blackjack!`;
     } else if (outcome === 'pBlackjackL') {
         msgEl.style.color = 'red';
         msgEl.innerText = `Player loses $${player.wager} on a dealer Blackjack!`;
+        loseSound();
     }
     else {
         msgEl.style.color = 'rgb(50, 50, 50)';
-        msgEl.innerText = `It's a draw!\n${player.handVal} to ${dealer.handVal}`;
+        msgEl.innerText = `It's a draw!\n(${player.handVal} to ${dealer.handVal})`;
+        drawSound();
     }
 }
 
@@ -224,7 +235,7 @@ function renderWalletMsg() {
     walletEl.innerText = `Wallet: $${wallet}`;
 }
 
-function renderCards() {//clears html/card imgs, renders all cards currently in player and dealer hand
+function renderCards() {
     userCardsEl.innerHTML = '';
     dealerCardsEl.innerHTML = '';
     player.imgLookup.forEach(function (face) {
@@ -239,7 +250,7 @@ function renderCards() {//clears html/card imgs, renders all cards currently in 
     })
 }
 
-function buildUnshuffledDeck() {//creates a clean deck
+function buildUnshuffledDeck() {
     const deck = [];
     suits.forEach(function (suit) {
         ranks.forEach(function (rank) {
@@ -251,7 +262,7 @@ function buildUnshuffledDeck() {//creates a clean deck
     });
     return deck;
 }
-function shuffleNewDeck() {//shuffles a clean deck
+function shuffleNewDeck() {
     const tempDeck = [...unshuffledDeck];
     const newShuffledDeck = [];
     while (tempDeck.length) {
@@ -259,4 +270,40 @@ function shuffleNewDeck() {//shuffles a clean deck
         newShuffledDeck.push(tempDeck.splice(rndIdx, 1)[0]);
     }
     return newShuffledDeck;
+}
+
+/*----- Sounds -----*/
+
+function clickSound() {
+    const snd = new Audio('sounds/click.wav')
+    snd.play()
+}
+
+function clickErrorSound() {
+    const snd = new Audio('sounds/click-error.wav')
+    snd.play()
+}
+
+function cashRegisterSound() {
+    const snd = new Audio('sounds/cash-register.mp3')
+    snd.play()
+}
+
+function loseSound() {
+    const snd = new Audio('sounds/lose.mp3')
+    snd.play()
+}
+
+function wagerSound() {
+    const snd = new Audio('sounds/shuffle-cards.mp3')
+    snd.play()
+}
+function drawSound() {
+    const snd = new Audio('sounds/neutral.mp3')
+    snd.play()
+}
+
+function stayNextSound() {
+    const snd = new Audio('sounds/stay-next.mp3')
+    snd.play()
 }

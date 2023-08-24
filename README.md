@@ -68,12 +68,16 @@
 <details open>
   <summary> Instructions </summary>
     
-    1. Type in your answers to each of the 3 randomly-generated mini-survey questions.
+    1. Enter a wager > 0 and <= to the wallet amount located in the bottom right corner.
 
+    2. Click on 'Make Wager' button.
 
-    2. Click on "Add Survey" to post your responses so others may see them.
+    3. Analyze the player and dealer hands. Click on the 'Hit' button to receive another card.
 
+    4. Click on the 'Stay' button to play out the dealer's hand and get results of the game.
 
-    3. 
+    5. Check updated wallet amount and click on 'Next Hand'
+
+    6. Enter a new wager.
 </details>
 
