@@ -36,23 +36,14 @@
 
 * A draw is achieved when player and dealer have the same card value. Wager is returned to the player.
 
-## :camera_flash: Screenshots
+  ## :camera_flash: Screenshots 
 
-1. Landing screen when app is first opened.
-
-<img src="https://i.imgur.com/CRHDpyj.png">
-
-2. After wager has been made.
-
-<img src="https://i.imgur.com/CRHDpyj.png">
-
-3. End of hand. 
-
-<img src="https://i.imgur.com/CRHDpyj.png">
-
-4. Next hand.
-
-<img src="https://i.imgur.com/CRHDpyj.png">
+  |   Description | Screenshot | 
+  |:-------------:| -----------|
+  | <h3>Landing Screen</h3> | <img src="https://i.imgur.com/jgcCtxB.png">
+  | <h3>After Wager</h3> | <img src="https://i.imgur.com/qqhylkc.png">
+  | <h3>Results / End of Hand</h3> | <img src="https://i.imgur.com/XP10G6J.png">
+  | <h3>Next Hand</h3> | <img src="https://i.imgur.com/ykh2LhN.png">
 
 ## :computer: Technologies Used
 

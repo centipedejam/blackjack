@@ -24,11 +24,11 @@ const newCard = document.createElement('div');
 document.getElementById('stay-btn').addEventListener('click', handleStay);
 document.getElementById('wager-btn').addEventListener('click', handleWager);
 document.getElementById('hit-btn').addEventListener('click', handleHit);
-document.getElementById('rules-btn').addEventListener('click', toggleRules)
+document.getElementById('rules-btn').addEventListener('click', toggleRules);
 playAgainBtn.addEventListener('click', function () {
     document.querySelector('form').style.display = 'block';
     msgEl.innerText = '';
-    msgEl.style.display = 'block'
+    msgEl.style.display = 'block';
     playAgainBtn.style.visibility = 'hidden';
     stayNextSound();
     init();
@@ -84,7 +84,7 @@ function handleWager() {
         dealCards(2, player);
         dealCards(2, dealer);
         checkBlackjack();
-        msgEl.innerText = ''
+        msgEl.innerText = '';
         document.querySelector('form').style.display = 'none';
         document.getElementById('hit-btn').style.display = 'block';
         document.getElementById('stay-btn').style.display = 'block';
@@ -95,9 +95,9 @@ function handleWager() {
 
 function dealCards(amount, user) {
     for (let i = 0; i < amount; i++) {
-        let nextCard = shuffledDeck.shift()
+        let nextCard = shuffledDeck.shift();
         user.hand.push(nextCard.value);
-        user.imgLookup.push(nextCard.face)
+        user.imgLookup.push(nextCard.face);
     }
 }
 
@@ -125,10 +125,10 @@ function checkBlackjack() {
         outcome = 'push';
     }
     else if (player.handVal === 21) {
-        outcome = 'pBlackjackW'
+        outcome = 'pBlackjackW';
     }
     else if (dealer.handVal === 21) {
-        outcome = 'pBlackjackL'
+        outcome = 'pBlackjackL';
     }
     updateWallet();
     render();
@@ -176,6 +176,10 @@ function updateWallet() {
     } else if (outcome === 'pLose' || outcome === 'pBlackjackL') {
         wallet -= player.wager;
     }
+    if (wallet === 0) {
+        playAgainBtn.style.fontSize = '1.8vmin';
+        playAgainBtn.innerHTML = 'You have no money. Please enter credit card details!';
+    }
 }
 
 function toggleRules() {
@@ -204,20 +208,20 @@ function renderWinner() {
     document.getElementById('rules-list').style.visibility = 'hidden';
 
     if (outcome === 'pWin') {
-        msgEl.style.color = 'green';
+        msgEl.style.color = '#557A46';
         msgEl.innerText = `Player Wins $${player.wager}! \n(${player.handVal} to ${dealer.handVal})`;
         cashRegisterSound();
     } else if (outcome === 'pLose') {
-        msgEl.style.color = 'red';
+        msgEl.style.color = '#CD1818';
         msgEl.innerText = `Player loses $${player.wager} ! \n(${player.handVal} to ${dealer.handVal})`;
         loseSound();
 
     } else if (outcome === 'pBlackjackW') {
-        msgEl.style.color = 'green';
+        msgEl.style.color = '#557A46';
         cashRegisterSound();
         msgEl.innerText = `Player Wins $${player.wager * 1.5} with a Blackjack!`;
     } else if (outcome === 'pBlackjackL') {
-        msgEl.style.color = 'red';
+        msgEl.style.color = '#CD1818';
         msgEl.innerText = `Player loses $${player.wager} on a dealer Blackjack!`;
         loseSound();
     }
@@ -275,35 +279,40 @@ function shuffleNewDeck() {
 /*----- Sounds -----*/
 
 function clickSound() {
-    const snd = new Audio('sounds/click.wav')
-    snd.play()
+    const snd = new Audio('sounds/click.wav');
+    snd.volume = 0.3;
+    snd.play();
 }
 
 function clickErrorSound() {
-    const snd = new Audio('sounds/click-error.wav')
-    snd.play()
+    const snd = new Audio('sounds/click-error.wav');
+    snd.volume = 0.3;
+    snd.play();
 }
 
 function cashRegisterSound() {
-    const snd = new Audio('sounds/cash-register.mp3')
-    snd.play()
+    const snd = new Audio('sounds/cash-register.mp3');
+    snd.volume = 0.3;
+    snd.play();
 }
 
 function loseSound() {
-    const snd = new Audio('sounds/lose.mp3')
-    snd.play()
+    const snd = new Audio('sounds/lose.mp3');
+    snd.play();
 }
 
 function wagerSound() {
-    const snd = new Audio('sounds/shuffle-cards.mp3')
-    snd.play()
+    const snd = new Audio('sounds/shuffle-cards.mp3');
+    snd.volume = 0.3;
+    snd.play();
 }
 function drawSound() {
-    const snd = new Audio('sounds/neutral.mp3')
-    snd.play()
+    const snd = new Audio('sounds/neutral.mp3');
+    snd.play();
 }
 
 function stayNextSound() {
-    const snd = new Audio('sounds/stay-next.mp3')
-    snd.play()
+    const snd = new Audio('sounds/stay-next.mp3');
+    snd.volume = 0.1;
+    snd.play();
 }
