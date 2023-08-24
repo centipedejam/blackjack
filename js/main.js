@@ -27,6 +27,7 @@ document.getElementById('hit-btn').addEventListener('click', handleHit);
 document.getElementById('rules-btn').addEventListener('click', toggleRules);
 playAgainBtn.addEventListener('click', function () {
     document.querySelector('form').style.display = 'block';
+    playAgainBtn.innerText = 'Next Hand'
     msgEl.innerText = '';
     msgEl.style.display = 'block';
     playAgainBtn.style.visibility = 'hidden';
@@ -177,7 +178,6 @@ function updateWallet() {
         wallet -= player.wager;
     }
     if (wallet === 0) {
-        playAgainBtn.style.fontSize = '1.8vmin';
         playAgainBtn.innerHTML = 'You have no money. Please enter credit card details!';
     }
 }
