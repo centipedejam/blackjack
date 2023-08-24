@@ -35,7 +35,7 @@ playAgainBtn.addEventListener('click', function () {
     init();
 });
 /*----- functions -----*/
-init(200);
+init();
 
 function init() {
     shuffledDeck = shuffleNewDeck();
@@ -55,69 +55,6 @@ function init() {
     render();
 }
 
-function handleHit() {
-    clickSound();
-    dealCards(1, player);
-    checkBust();
-}
-
-function handleStay() {
-    hideControls();
-    getHandTotal(dealer);
-    while (getHandTotal(dealer) < 17) {
-        dealCards(1, dealer);
-    }
-    checkOutcome();
-}
-
-function handleWager() {
-    const wagerAmt = parseFloat(wagerInputEl.value);
-    if (wagerAmt > wallet) {
-        clickErrorSound();
-        msgEl.innerText = `Please enter valid wager\nCurrent balance: $${wallet}`;
-    } else if (wagerAmt < 0) {
-        clickErrorSound();
-        msgEl.innerText = 'Please enter a valid number';
-    }
-    else {
-        wagerSound();
-        player.wager = wagerAmt;
-        dealCards(2, player);
-        dealCards(2, dealer);
-        checkBlackjack();
-        msgEl.innerText = '';
-        document.querySelector('form').style.display = 'none';
-        document.getElementById('hit-btn').style.display = 'block';
-        document.getElementById('stay-btn').style.display = 'block';
-
-    }
-    document.querySelector('ul').classList.add('hidden');
-}
-
-function dealCards(amount, user) {
-    for (let i = 0; i < amount; i++) {
-        let nextCard = shuffledDeck.shift();
-        user.hand.push(nextCard.value);
-        user.imgLookup.push(nextCard.face);
-    }
-}
-
-function getHandTotal(user) {
-    user.handVal = 0;
-    aceCount = 0;
-    user.hand.forEach(function (card, idx) {
-        user.handVal += card;
-        if (card === 11) {
-            aceCount++;
-        }
-        while (aceCount && user.handVal > 21) {
-            user.handVal -= 10;
-            aceCount--;
-        }
-    })
-    return user.handVal;
-}
-
 function checkBlackjack() {
     getHandTotal(dealer);
     getHandTotal(player);
@@ -135,7 +72,7 @@ function checkBlackjack() {
     render();
     if (outcome) {
         document.querySelector('form').style.display = 'none';
-        renderWinner();
+        // renderWinner();
     }
 }
 
@@ -169,6 +106,82 @@ function checkOutcome() {
     render();
 }
 
+function dealCards(amount, user) {
+    for (let i = 0; i < amount; i++) {
+        let nextCard = shuffledDeck.shift();
+        user.hand.push(nextCard.value);
+        user.imgLookup.push(nextCard.face);
+    }
+}
+
+function getHandTotal(user) {
+    user.handVal = 0;
+    aceCount = 0;
+    user.hand.forEach(function (card, idx) {
+        user.handVal += card;
+        if (card === 11) {
+            aceCount++;
+        }
+        while (aceCount && user.handVal > 21) {
+            user.handVal -= 10;
+            aceCount--;
+        }
+    })
+    return user.handVal;
+}
+
+function handleHit() {
+    clickSound();
+    dealCards(1, player);
+    checkBust();
+}
+
+function handleStay() {
+    hideControls();
+    while (getHandTotal(dealer) < 17) {
+        dealCards(1, dealer);
+    }
+    checkOutcome();
+}
+
+function handleWager() {
+    const wagerAmt = parseFloat(wagerInputEl.value);
+    if (wagerAmt > wallet) {
+        clickErrorSound();
+        msgEl.style.color = '#CD1818'
+        msgEl.innerText = `Please enter valid wager\nCurrent balance: $${wallet}`;
+    } else if (wagerAmt < 0) {
+        clickErrorSound();
+        msgEl.style.color = '#CD1818'
+        msgEl.innerText = 'Please enter a valid number';
+    }
+    else {
+        msgEl.innerText = '';
+        player.wager = wagerAmt;
+        dealCards(2, player);
+        dealCards(2, dealer);
+        checkBlackjack();
+        wagerSound();
+        document.querySelector('form').style.display = 'none';
+        showControls();
+    }
+    document.querySelector('ul').classList.add('hidden');
+}
+
+function hideControls() {
+    document.getElementById('hit-btn').style.display = 'none';
+    document.getElementById('stay-btn').style.display = 'none';
+}
+
+function showControls() {
+    document.getElementById('hit-btn').style.display = 'block';
+    document.getElementById('stay-btn').style.display = 'block';
+}
+
+function toggleRules() {
+    document.querySelector('ul').classList.toggle('hidden');
+}
+
 function updateWallet() {
     if (outcome === 'pWin') {
         wallet += player.wager;
@@ -182,21 +195,34 @@ function updateWallet() {
     }
 }
 
-function toggleRules() {
-    document.querySelector('ul').classList.toggle('hidden');
-}
-
-function hideControls() {
-    document.getElementById('hit-btn').style.display = 'none';
-    document.getElementById('stay-btn').style.display = 'none';
-}
-
 function render() {
     renderCards();
     renderWalletMsg();
     if (outcome) {
         renderWinner();
     }
+}
+
+function renderCards() {
+    userCardsEl.innerHTML = '';
+    dealerCardsEl.innerHTML = '';
+    player.imgLookup.forEach(function (face) {
+        userCardsEl.innerHTML += `<div class="card ${face} u-xlarge shadow"></div>`;
+    })
+    dealer.imgLookup.forEach(function (face) {
+        if (face === dealer.imgLookup[0]) {
+            dealerCardsEl.innerHTML += `<div class="card back-red d-xlarge shadow down"></div>`;
+        } else {
+            dealerCardsEl.innerHTML += `<div class="card ${face} d-xlarge shadow"></div>`;
+        }
+    })
+}
+
+function renderWalletMsg() {
+    const wagerEl = document.getElementById('wager-amt');
+    const walletEl = document.getElementById('wallet-amt');
+    wagerEl.innerText = `Wager: $${player.wager}`;
+    walletEl.innerText = `Wallet: $${wallet}`;
 }
 
 function renderWinner() {
@@ -230,28 +256,6 @@ function renderWinner() {
         msgEl.innerText = `It's a draw!\n(${player.handVal} to ${dealer.handVal})`;
         drawSound();
     }
-}
-
-function renderWalletMsg() {
-    const wagerEl = document.getElementById('wager-amt');
-    const walletEl = document.getElementById('wallet-amt');
-    wagerEl.innerText = `Wager: $${player.wager}`;
-    walletEl.innerText = `Wallet: $${wallet}`;
-}
-
-function renderCards() {
-    userCardsEl.innerHTML = '';
-    dealerCardsEl.innerHTML = '';
-    player.imgLookup.forEach(function (face) {
-        userCardsEl.innerHTML += `<div class="card ${face} u-xlarge shadow"></div>`;
-    })
-    dealer.imgLookup.forEach(function (face) {
-        if (face === dealer.imgLookup[0]) {
-            dealerCardsEl.innerHTML += `<div class="card back-red d-xlarge shadow down"></div>`;
-        } else {
-            dealerCardsEl.innerHTML += `<div class="card ${face} d-xlarge shadow"></div>`;
-        }
-    })
 }
 
 function buildUnshuffledDeck() {
