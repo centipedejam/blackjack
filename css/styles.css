@@ -105,7 +105,7 @@ div p:first-child {
     justify-content: start;
     margin-top: -10vmin;
     font-size: 3.5vmin;
-    line-height: 0.5vmin;
+    line-height: 0.2vmin;
     font-family: 'Tangerine', cursive;
 }
 
@@ -120,6 +120,11 @@ div p:first-child {
     display: flex;
     justify-content: start;
     align-items: center;
+}
+
+h2 {
+    margin-left: 5.5vmin;
+    font-size: 6.5vmin;
 }
 
 #wager-input {
