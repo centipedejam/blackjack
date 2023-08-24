@@ -68,7 +68,7 @@ function handleStay() {
 }
 
 function handleWager() {
-    const wagerAmt = parseInt(wagerInputEl.value);
+    const wagerAmt = parseFloat(wagerInputEl.value);
     if (wagerAmt > wallet) {
         return msgEl.innerText = `Please enter valid wager\nCurrent balance: $${wallet}`;
     } else if (wagerAmt < 1) {
@@ -220,8 +220,8 @@ function renderWinner() {
 function renderWalletMsg() {
     const wagerEl = document.getElementById('wager-amt');
     const walletEl = document.getElementById('wallet-amt');
-    wagerEl.innerText = `Wager: ${player.wager}`;
-    walletEl.innerText = `Wallet: ${wallet}`;
+    wagerEl.innerText = `Wager: $${player.wager}`;
+    walletEl.innerText = `Wallet: $${wallet}`;
 }
 
 function renderCards() {//clears html/card imgs, renders all cards currently in player and dealer hand
