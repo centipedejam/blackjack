@@ -22,7 +22,10 @@ const newCard = document.createElement('div');
 
 /*----- event listeners -----*/
 document.getElementById('stay-btn').addEventListener('click', handleStay);
-document.getElementById('wager-btn').addEventListener('click', handleWager);
+document.getElementById('wager-btn').addEventListener('click', function (evt) {
+    evt.preventDefault();
+    handleWager();
+});
 document.getElementById('hit-btn').addEventListener('click', handleHit);
 document.getElementById('rules-btn').addEventListener('click', toggleRules);
 playAgainBtn.addEventListener('click', function () {
@@ -70,10 +73,6 @@ function checkBlackjack() {
     }
     updateWallet();
     render();
-    if (outcome) {
-        document.querySelector('form').style.display = 'none';
-        // renderWinner();
-    }
 }
 
 function checkBust() {
@@ -148,11 +147,11 @@ function handleWager() {
     const wagerAmt = parseFloat(wagerInputEl.value);
     if (wagerAmt > wallet) {
         clickErrorSound();
-        msgEl.style.color = '#CD1818'
+        msgEl.style.color = '#CD1818';
         msgEl.innerText = `Please enter valid wager\nCurrent balance: $${wallet}`;
     } else if (wagerAmt < 0) {
         clickErrorSound();
-        msgEl.style.color = '#CD1818'
+        msgEl.style.color = '#CD1818';
         msgEl.innerText = 'Please enter a valid number';
     }
     else {
@@ -211,7 +210,7 @@ function renderCards() {
     })
     dealer.imgLookup.forEach(function (face) {
         if (face === dealer.imgLookup[0]) {
-            dealerCardsEl.innerHTML += `<div class="card back-red d-xlarge shadow down"></div>`;
+            dealerCardsEl.innerHTML += `<div id="down" class="card back-red d-xlarge shadow"></div>`;
         } else {
             dealerCardsEl.innerHTML += `<div class="card ${face} d-xlarge shadow"></div>`;
         }
@@ -228,7 +227,7 @@ function renderWalletMsg() {
 function renderWinner() {
     playAgainBtn.classList.remove('hidden');
     playAgainBtn.style.visibility = 'visible';
-    faceDownCard = document.querySelector('.back-red');
+    const faceDownCard = document.querySelector('#down');
     faceDownCard.classList.add(`${dealer.imgLookup[0]}`);
     faceDownCard.classList.remove('back-red');
     document.getElementById('rules-list').style.visibility = 'hidden';
@@ -270,6 +269,7 @@ function buildUnshuffledDeck() {
     });
     return deck;
 }
+
 function shuffleNewDeck() {
     const tempDeck = [...unshuffledDeck];
     const newShuffledDeck = [];
