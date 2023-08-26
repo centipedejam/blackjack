@@ -26,10 +26,11 @@ document.getElementById('wager-btn').addEventListener('click', function (evt) {
     evt.preventDefault();
     handleWager();
 });
+document.getElementById('dark-mode-checkbox').addEventListener('change', handleDarkMode)
 document.getElementById('hit-btn').addEventListener('click', handleHit);
 document.getElementById('rules-btn').addEventListener('click', toggleRules);
 playAgainBtn.addEventListener('click', function () {
-    document.querySelector('form').style.display = 'block';
+    document.querySelector('form').style.display = 'flex';
     playAgainBtn.innerText = 'Next Hand'
     msgEl.innerText = '';
     msgEl.style.display = 'block';
@@ -319,4 +320,11 @@ function stayNextSound() {
     const snd = new Audio('sounds/stay-next.mp3');
     snd.volume = 0.1;
     snd.play();
+}
+
+function handleDarkMode(e) {
+    document.querySelectorAll("#user-msg p")[0].classList.toggle("dark-mode-border", e.target.checked)
+    document.querySelectorAll("#dealer-msg p")[0].classList.toggle("dark-mode-border", e.target.checked)
+    document.body.classList.toggle("dark-mode", e.target.checked)
+    document.getElementById('wager-btn').classList.toggle("dark-mode-btn", e.target.checked)
 }

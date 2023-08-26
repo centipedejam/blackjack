@@ -129,14 +129,53 @@ h2 {
 
 #wager-input {
     margin-top: 4vmin;
-    margin-left: 5.5vmin;
     height: 7vmin;
-    width: 9vmin;
     border: 0.5vmin solid rgb(41, 79, 76);
     border-radius: 10%;
     background-color: rgb(241, 231, 231);
     font-family: 'ADLaM Display', cursive;
     font-size: 3.5vmin;
+    text-align: center;
+}
+
+#rules-darkmode {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: 90%;
+}
+
+#dark-mode-checkbox {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.dark-mode {
+    color: rgb(227, 229, 230);
+    background-color: rgb(58, 58, 60);
+}
+
+.dark-mode-border {
+    border-bottom: 0.65vmin solid rgb(227, 229, 230) !important;
+}
+
+.dark-mode-btn {
+    color: rgb(58, 58, 60) !important;
+    background-color: rgb(227, 229, 230) !important;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 15vmin;
+}
+
+form>button,
+form>input {
+    display: flex;
+    justify-content: center;
 }
 
 #wager-input:hover {
