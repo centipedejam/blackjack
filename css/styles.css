@@ -10,17 +10,6 @@ body {
     margin: 0 auto;
 }
 
-div {
-    display: flex;
-    align-items: start;
-    justify-content: center;
-}
-
-img {
-    height: 35vmin;
-    width: 35vmin;
-}
-
 #display-msg {
     grid-column: 3;
     grid-row: 2;
@@ -194,6 +183,17 @@ form>input {
     padding-right: 10vmin;
     border-radius: 5%;
 
+}
+
+div {
+    display: flex;
+    align-items: start;
+    justify-content: center;
+}
+
+img {
+    height: 35vmin;
+    width: 35vmin;
 }
 
 .button-56 {
