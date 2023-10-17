@@ -5,7 +5,7 @@
 
   # Blackjack
  #### Created by Jack Heimburge
-  ### [CLICK TO PLAY](https://centipedejam.github.io/blackjack/)
+  ### [CLICK TO PLAY](https://jackheimburge.github.io/blackjack/)
 
  
   [![LinkedIn Badge](https://img.shields.io/badge/-@jackheimburge-blue?style=flat&logo=Linkedin&logoColor=black)](https://www.linkedin.com/in/jackheimburge/)
